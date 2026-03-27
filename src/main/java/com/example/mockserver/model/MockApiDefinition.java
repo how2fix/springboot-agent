@@ -32,7 +32,7 @@ public class MockApiDefinition {
     /**
      * 响应内容，支持SpEL表达式
      */
-    private Object response;
+    private Map<String, Object> response;
 
     /**
      * 响应延迟时间（毫秒），默认0

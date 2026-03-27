@@ -6,6 +6,8 @@ spring:
     name: dynamic-mock-server
   profiles:
     active: dev
+  config:
+    import: classpath:mock-config.yml
 
 # Mock服务配置
 mock:

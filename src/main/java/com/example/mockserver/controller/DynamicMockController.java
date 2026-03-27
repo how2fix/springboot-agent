@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -35,8 +36,11 @@ public class DynamicMockController {
         // 匹配接口配置
         MockApiDefinition api = apiRegistry.matchApi(request);
         if (api == null) {
+            Map<String, Object> body = new HashMap<>();
+            body.put("code", 404);
+            body.put("message", "未找到对应的Mock接口配置");
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("code", 404, "message", "未找到对应的Mock接口配置"));
+                    .body(body);
         }
 
         // 延迟处理
