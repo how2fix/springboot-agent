@@ -1,0 +1,68 @@
+mock:
+  apis:
+    # 示例1：普通GET接口
+    - path: /api/hello
+      method: GET
+      status: 200
+      headers:
+        Content-Type: application/json
+      response:
+        code: 200
+        message: "Hello, #{params.name != null ? params.name : 'World'}!"
+        timestamp: #{now}
+      delay: 0
+
+    # 示例2：普通POST接口
+    - path: /api/user/info
+      method: POST
+      status: 200
+      headers:
+        Content-Type: application/json
+      response:
+        code: 200
+        data:
+          id: 1
+          username: "test_user"
+          email: "test@example.com"
+          avatar: "https://example.com/avatar.png"
+      delay: 500
+
+    # 示例3：流式返回接口，模拟智能体回答
+    - path: /api/agent/chat
+      method: POST
+      status: 200
+      sse:
+        enabled: true
+        interval: 200
+        chunks:
+          - "{"type":"thinking","content":"正在分析您的问题..."
+          - "{"type":"thinking","content":"正在检索相关信息..."
+          - "{"type":"answer","content":"您好，"
+          - "{"type":"answer","content":"关于您问的Spring Boot配置化Mock服务的实现，"
+          - "{"type":"answer","content":"主要包含以下几个部分："
+          - "{"type":"answer","content":"1. 配置绑定类，用于加载yml配置"
+          - "{"type":"answer","content":"2. 路径匹配服务，用于匹配请求和配置"
+          - "{"type":"answer","content":"3. 响应生成服务，支持动态内容"
+          - "{"type":"answer","content":"4. 流式返回服务，支持SSE逐段输出"
+          - "{"type":"answer","content":"这样您就可以无需编码，只需要修改配置文件即可添加任意模拟接口。"
+        endMessage: "[DONE]"
+      delay: 0
+
+    # 示例4：错误模拟接口
+    - path: /api/error/500
+      method: GET
+      status: 500
+      headers:
+        Content-Type: application/json
+      response:
+        code: 500
+        message: "服务器内部错误"
+        requestId: "#{T(java.util.UUID).randomUUID().toString()}"
+
+    # 示例5：Ant路径匹配示例
+    - path: /api/user/*
+      method: GET
+      status: 200
+      response:
+        code: 200
+        message: "匹配所有/api/user/下的GET请求"

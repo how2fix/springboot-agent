@@ -1,0 +1,14 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: dynamic-mock-server
+  profiles:
+    active: dev
+
+# Mock服务配置
+mock:
+  hot-reload: true
+  reload-interval: 5000
+  config-path: classpath:mock-config.yml
